@@ -13,7 +13,8 @@ def copy_pytemplate(target_directory):
     print "Copying to {}".format(target_directory)
     package_name = os.path.basename(target_directory)
     # copy the codebase
-    shutil.copytree(PYTEMPLATE_PRJ_DIR, target_directory)
+    shutil.copytree(PYTEMPLATE_PRJ_DIR, target_directory,
+                    ignore=lambda d, f: ['.git'])
     remove_pyc_and_egg_infos(target_directory)
     # replace pytemplate and PYTEMPLATE as appropriate
     replace_pytemplate(target_directory, package_name)
