@@ -15,6 +15,7 @@ def copy_pytemplate(target_directory):
     # copy the codebase
     shutil.copytree(PYTEMPLATE_PRJ_DIR, target_directory,
                     ignore=lambda d, f: ['.git'])
+    # remove any lingering temp files
     remove_pyc_and_egg_infos(target_directory)
     # replace pytemplate and PYTEMPLATE as appropriate
     replace_pytemplate(target_directory, package_name)
@@ -68,7 +69,6 @@ def replace_pytemplate(target_directory, package_name):
     walk_all(target_directory,
              remove_in_walk_callback,
              None,)
-
 
 
 def replace_pytemplate_in_file(filepath, searchfor, replacement):
