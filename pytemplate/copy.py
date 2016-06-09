@@ -5,12 +5,19 @@ import shutil
 from .constants import PYTEMPLATE_PRJ_DIR
 
 
+# hacky debugging
+VERBOSE = False
+def _print(string):
+    if VERBOSE:
+        print string
+
+
 def copy_pytemplate(target_directory):
     """
     Copy the pytemplate codebase, replacing the package name as approprate.
 
     """
-    print "Copying to {}".format(target_directory)
+    _print("Copying to {}".format(target_directory))
     package_name = os.path.basename(target_directory)
     # copy the codebase
     shutil.copytree(PYTEMPLATE_PRJ_DIR, target_directory,
@@ -24,6 +31,10 @@ def copy_pytemplate(target_directory):
         os.path.join(target_directory, 'pytemplate'),
         os.path.join(target_directory, package_name)
     )
+    print "Copied to {}".format(target_directory)
+    print ("***A BSD license is included***\n"
+           "Be sure to change the copyright owner as appropriate\n"
+           "for your new package")
 
 
 def remove_pyc_and_egg_infos(target_directory):
@@ -33,10 +44,10 @@ def remove_pyc_and_egg_infos(target_directory):
 
     def remove_if_pyc_or_egg_info(path):
         if path.endswith('.pyc'):
-            print "removing {}".format(path)
+            _print("removing {}".format(path))
             os.unlink(path)
         elif path.endswith('.egg-info'):
-            print "removing {}".format(path)
+            _print("removing {}".format(path))
             shutil.rmtree(path)
 
     def remove_in_walk_callback(_, dirname, fnames):
@@ -53,10 +64,10 @@ def replace_pytemplate(target_directory, package_name):
     """
     Replace all instances of pytemplate and PYTEMPLATE in the
     full project
-    """
 
+    """
     def replace(path):
-        print "replacing pytemplate in {}".format(path)
+        _print("replacing pytemplate in {}".format(path))
         replace_pytemplate_in_file(path, 'pytemplate', package_name)
         replace_pytemplate_in_file(path, 'PYTEMPLATE', package_name.upper())
 
@@ -76,7 +87,7 @@ def replace_pytemplate_in_file(filepath, searchfor, replacement):
     Rewrite a file after doing a search-and-replace. See
     `search_and_replace` for details
     """
-    print "Replacing in {}".format(filepath)
+    _print("Replacing in {}".format(filepath))
     with open(filepath, 'r') as f:
         content = f.read()
     replaced_content = search_and_replace(content, searchfor, replacement)
