@@ -17,7 +17,7 @@ setup(name='pytemplate',
       url='https://github.com/stroxler/pytemplate',
       author='Steven Troxler',
       author_email='steven.troxler@gmail.com',
-      license='None yet, but feel free to copy',
+      license='BSD',
       packages=['pytemplate'],
       install_requires=[
           'click', 'sh',
